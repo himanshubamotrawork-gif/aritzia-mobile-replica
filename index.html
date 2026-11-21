@@ -4,11 +4,368 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Aritzia — Replica</title>
-  <!-- Full content is very large due to base64 images. If this push is truncated, the local file is the source of truth. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #000000;
+      --bg: #ffffff;
+      --surface: #f7f7f7;
+      --muted: #6b6b6b;
+      --red: #db1215;
+      --border: #e5e5e5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.4;
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px 14px; background: var(--bg); position: sticky; top: 0; z-index: 100;
+    }
+    .logo {
+      font-weight: 500; font-size: 22px; letter-spacing: 3.5px; text-transform: uppercase;
+      color: var(--ink); text-decoration: none;
+    }
+    .header-icons { display: flex; align-items: center; gap: 18px; }
+    .icon-btn {
+      background: none; border: none; cursor: pointer; padding: 4px;
+      display: flex; align-items: center; justify-content: center; position: relative; color: var(--ink);
+    }
+    .icon-btn svg { width: 22px; height: 22px; stroke-width: 1.5; }
+    .bag-count {
+      position: absolute; top: -2px; right: -6px; background: var(--ink); color: white;
+      font-size: 10px; font-weight: 600; width: 16px; height: 16px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .promo-banner {
+      background: var(--ink); color: white; text-align: center; padding: 10px 16px; font-size: 13px; position: relative;
+    }
+    .promo-banner a { color: white; text-decoration: underline; margin-left: 4px; }
+    .promo-close {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: white; font-size: 18px; cursor: pointer;
+    }
+    .section { padding: 24px 16px 8px; }
+    .section-title { font-size: 15px; font-weight: 400; margin-bottom: 16px; }
+    .section-title.large { font-size: 28px; letter-spacing: -0.5px; margin-bottom: 8px; }
+    .section-sub { font-size: 15px; margin-bottom: 28px; max-width: 320px; }
+    .product-scroll {
+      display: flex; gap: 12px; overflow-x: auto; padding: 0 16px 24px;
+      scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    }
+    .product-scroll::-webkit-scrollbar { display: none; }
+    .product-card { flex: 0 0 48%; max-width: 180px; scroll-snap-align: start; }
+    .product-img-wrap {
+      position: relative; background: #f0f0f0; aspect-ratio: 3/4; overflow: hidden; margin-bottom: 10px;
+    }
+    .product-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .product-name { font-size: 13px; line-height: 1.35; margin-bottom: 2px; }
+    .product-price { font-size: 13px; }
+    .bookmark {
+      position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; color: var(--ink);
+    }
+    .bag-item {
+      display: flex; gap: 14px; padding: 20px 16px; border-bottom: 1px solid var(--border);
+    }
+    .bag-item-img {
+      width: 120px; flex-shrink: 0; background: #f0f0f0; aspect-ratio: 3/4; overflow: hidden;
+    }
+    .bag-item-img img { width: 100%; height: 100%; object-fit: cover; }
+    .bag-item-details { flex: 1; display: flex; flex-direction: column; position: relative; padding-right: 24px; }
+    .bag-item-name { font-size: 14px; margin-bottom: 4px; line-height: 1.3; }
+    .bag-item-price { font-size: 14px; margin-bottom: 8px; }
+    .bag-item-price .original { text-decoration: line-through; color: var(--muted); margin-right: 6px; }
+    .bag-item-price .sale { color: var(--red); }
+    .bag-item-meta { font-size: 13px; margin-bottom: 2px; }
+    .bag-item-actions { margin-top: 10px; font-size: 13px; }
+    .bag-item-actions a { color: var(--ink); text-decoration: underline; margin-right: 12px; }
+    .item-id { font-size: 12px; color: var(--muted); margin-top: 8px; }
+    .remove-btn {
+      position: absolute; top: 0; right: 0; background: none; border: none; font-size: 18px; cursor: pointer; color: var(--ink);
+    }
+    .shipping-options { padding: 20px 16px; }
+    .option { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 18px; cursor: pointer; }
+    .option input[type="radio"] {
+      appearance: none; width: 20px; height: 20px; border: 1.5px solid var(--ink); border-radius: 50%; margin-top: 1px; position: relative; flex-shrink: 0;
+    }
+    .option input[type="radio"]:checked::after {
+      content: ''; position: absolute; top: 4px; left: 4px; width: 10px; height: 10px; background: var(--ink); border-radius: 50%;
+    }
+    .option-label { font-size: 14px; }
+    .option-label .sub { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .option-label a { color: var(--ink); text-decoration: underline; font-size: 13px; }
+    .gift-note { padding: 8px 16px 24px; display: flex; gap: 12px; align-items: flex-start; }
+    .gift-note svg { width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; }
+    .gift-note-text { font-size: 13px; line-height: 1.45; }
+    .gift-note-text strong { font-weight: 500; display: block; margin-bottom: 4px; }
+    .order-summary { background: var(--surface); padding: 24px 16px 32px; margin-top: 8px; }
+    .order-summary h3 { font-size: 15px; font-weight: 400; margin-bottom: 18px; }
+    .summary-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 12px; }
+    .summary-row.discount { color: var(--red); }
+    .summary-row.total { font-weight: 500; margin-top: 8px; padding-top: 12px; border-top: 1px solid #ddd; }
+    .summary-row a { color: var(--ink); text-decoration: underline; font-size: 13px; }
+    .help-icon {
+      display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px;
+      border: 1px solid var(--muted); border-radius: 50%; font-size: 11px; color: var(--muted); margin-left: 4px; vertical-align: middle;
+    }
+    .checkout-btn {
+      display: block; width: 100%; background: var(--ink); color: white; border: none; padding: 16px;
+      font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 20px; text-align: center;
+    }
+    .payment-row { display: flex; gap: 10px; margin-top: 12px; }
+    .payment-btn {
+      flex: 1; background: white; border: 1.5px solid var(--ink); padding: 14px; font-size: 15px; font-weight: 500;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .klarna-note { font-size: 12px; color: var(--muted); margin-top: 16px; line-height: 1.4; }
+    .klarna-note a { color: var(--ink); text-decoration: underline; }
+    footer { padding: 32px 16px 100px; font-size: 13px; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 16px 20px; margin-bottom: 20px; }
+    .footer-links a { color: var(--ink); text-decoration: underline; }
+    .copyright { color: var(--muted); font-size: 12px; }
+    .chat-fab {
+      position: fixed; bottom: 24px; right: 20px; width: 52px; height: 52px; background: var(--ink);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 50; border: none;
+    }
+    .chat-fab svg { width: 24px; height: 24px; fill: white; }
+    .divider { height: 8px; background: var(--surface); }
+    .final-sale { color: var(--red); font-size: 13px; margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+    .browser-chrome {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-top: 1px solid #ddd;
+      padding: 8px 12px 10px; display: flex; align-items: center; justify-content: space-between; z-index: 40; font-size: 12px;
+    }
+    .browser-chrome .url-pill {
+      background: #f0f0f0; border-radius: 20px; padding: 6px 16px; font-size: 13px; color: #333; flex: 1; text-align: center; margin: 0 8px;
+    }
+  </style>
 </head>
 <body>
-  <h1 style="padding:40px;font-family:sans-serif;">The full HTML file is large (~267KB with embedded product photos).</h1>
-  <p style="padding:0 40px;font-family:sans-serif;">Please download the complete version from the chat artifacts and replace this file, or ask me to push a lighter version without the largest base64 images.</p>
-  <p style="padding:0 40px;font-family:sans-serif;">Local file path: /home/workdir/artifacts/aritzia-replica.html</p>
+
+  <header>
+    <a href="#" class="logo">ARITZIA</a>
+    <div class="header-icons">
+      <button class="icon-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Bag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L5 3H2"/></svg>
+        <span class="bag-count">3</span>
+      </button>
+      <button class="icon-btn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="promo-banner" id="promo">
+    30–50% off select styles. Warm Up Sale. <a href="#">Shop Now</a>
+    <button class="promo-close" onclick="document.getElementById('promo').style.display='none'">×</button>
+  </div>
+
+  <section class="section">
+    <h2 class="section-title large">Act Fast</h2>
+    <p class="section-sub">Get your favourite styles before someone else does.</p>
+  </section>
+
+  <section class="section" style="padding-top: 0;">
+    <h2 class="section-title large">My Bag<sup style="font-size: 16px;">3</sup></h2>
+  </section>
+
+  <!-- Bag Item 1 -->
+  <div class="bag-item">
+    <div class="bag-item-img">
+      <img src="product-images/levis-jean.jpg" alt="Levi's Easy Dad Jean">
+    </div>
+    <div class="bag-item-details">
+      <button class="remove-btn" aria-label="Remove">×</button>
+      <div class="bag-item-name">Levi's Easy Dad Jean</div>
+      <div class="bag-item-price">
+        <span class="original">1 x $110</span>
+        <span class="sale">$20</span>
+      </div>
+      <div class="bag-item-meta">Free Lunch Lb</div>
+      <div class="bag-item-meta">Size 27</div>
+      <div class="bag-item-actions"><a href="#">Edit</a></div>
+      <div class="final-sale">Final Sale <span class="help-icon">?</span></div>
+      <div class="bag-item-actions" style="margin-top: 8px;"><a href="#">Move to List</a></div>
+      <div class="item-id">#131099</div>
+    </div>
+  </div>
+
+  <div class="shipping-options">
+    <label class="option">
+      <input type="radio" name="ship1" checked>
+      <div class="option-label">Deliver to Me<span class="sub">Standard shipping 1-4 days</span></div>
+    </label>
+    <label class="option">
+      <input type="radio" name="ship1">
+      <div class="option-label">Pick Up In Store<br><a href="#">Check availability at stores near you</a></div>
+    </label>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Bag Item 2 -->
+  <div class="bag-item">
+    <div class="bag-item-img">
+      <img src="product-images/polartec-fleece.jpg" alt="Polartec Thermal Pro Highlands 1/2 Zip">
+    </div>
+    <div class="bag-item-details">
+      <button class="remove-btn" aria-label="Remove">×</button>
+      <div class="bag-item-name">Polartec® Thermal Pro™ Highlands 1/2 Zip</div>
+      <div class="bag-item-price">
+        <span class="original">1 x $110</span>
+        <span class="sale">$20</span>
+      </div>
+      <div class="bag-item-meta">Mullein</div>
+      <div class="bag-item-meta">Size M</div>
+      <div class="bag-item-actions"><a href="#">Edit</a></div>
+      <div class="bag-item-actions" style="margin-top: 8px;"><a href="#">Move to List</a></div>
+      <div class="item-id">#135462</div>
+    </div>
+  </div>
+
+  <div class="shipping-options">
+    <label class="option">
+      <input type="radio" name="ship2" checked>
+      <div class="option-label">Deliver to Me<span class="sub">Standard shipping 1-4 days</span></div>
+    </label>
+    <label class="option">
+      <input type="radio" name="ship2">
+      <div class="option-label">Pick Up In Store<br><a href="#">Check availability at stores near you</a></div>
+    </label>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Bag Item 3 -->
+  <div class="bag-item">
+    <div class="bag-item-img">
+      <img src="product-images/supersnug-puff.jpg" alt="The SuperSnug Puff Liquid Shine">
+    </div>
+    <div class="bag-item-details">
+      <button class="remove-btn" aria-label="Remove">×</button>
+      <div class="bag-item-name">The SuperSnug Puff™ - Liquid Shine</div>
+      <div class="bag-item-price">
+        <span class="original">1 x $298</span>
+        <span class="sale">$20</span>
+      </div>
+      <div class="bag-item-meta">Black</div>
+      <div class="bag-item-meta">Size M</div>
+      <div class="bag-item-actions"><a href="#">Edit</a></div>
+      <div class="bag-item-actions" style="margin-top: 8px;"><a href="#">Move to List</a></div>
+      <div class="item-id">#126427</div>
+    </div>
+  </div>
+
+  <div class="shipping-options">
+    <label class="option">
+      <input type="radio" name="ship3" checked>
+      <div class="option-label">Deliver to Me<span class="sub">Standard shipping 1-4 days</span></div>
+    </label>
+    <label class="option">
+      <input type="radio" name="ship3">
+      <div class="option-label">Pick Up In Store<br><a href="#">Check availability at stores near you</a></div>
+    </label>
+  </div>
+
+  <div class="gift-note">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="3" y="8" width="18" height="13" rx="1"/>
+      <path d="M12 8V21"/><path d="M3 12h18"/>
+      <path d="M7.5 8a2.5 2.5 0 0 1 0-5c1.5 0 2.5 2 4.5 2s3-2 4.5-2a2.5 2.5 0 0 1 0 5"/>
+    </svg>
+    <div class="gift-note-text">
+      <strong>Sending a gift?</strong>
+      Select the gift receipt option at checkout for extended holiday returns. Exclusions apply.
+    </div>
+  </div>
+
+  <div class="order-summary">
+    <h3>Order Summary</h3>
+    <div class="summary-row"><span>Deliver to Me (3)</span><span>$518</span></div>
+    <div class="summary-row discount"><span>Discount</span><span>- $458.00</span></div>
+    <div class="summary-row"><span>Shipping Estimate <span class="help-icon">?</span></span><span>$7.50</span></div>
+    <div class="summary-row"><a href="#">Sign in for free shipping on all orders.</a></div>
+    <div class="summary-row"><span>Tax Estimate <span class="help-icon">?</span></span><span>$3.00</span></div>
+    <div class="summary-row total"><span>Estimated Total</span><span>$70.50</span></div>
+    <button class="checkout-btn">Checkout</button>
+    <div class="payment-row">
+      <button class="payment-btn">PayPal</button>
+      <button class="payment-btn">Apple Pay</button>
+    </div>
+    <p class="klarna-note">From $44/month, or 4 payments at 0% interest with <strong>Klarna</strong><br><a href="#">Check purchase power</a></p>
+  </div>
+
+  <section class="section">
+    <h2 class="section-title">Add these essential styles</h2>
+  </section>
+
+  <div class="product-scroll">
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="product-images/gray-longsleeve.jpg" alt="HomeStretch Rib Solo Longsleeve">
+        <button class="bookmark" aria-label="Save"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">HomeStretch™ Rib Solo Longsleeve</div>
+        <div class="product-price">$38</div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="product-images/right-burgundy-top.jpg" alt="HomeStretch Rib Airwave Longsleeve">
+        <button class="bookmark" aria-label="Save"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">HomeStretch™ Rib Airwave Longsleeve</div>
+        <div class="product-price">$38</div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="product-images/gray-longsleeve.jpg" alt="Contour Crew Longsleeve">
+        <button class="bookmark" aria-label="Save"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+      </div>
+      <div class="product-info">
+        <div class="product-name">Contour Crew Longsleeve</div>
+        <div class="product-price">$42</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Manage Cookies</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Site Map</a>
+    </div>
+    <div class="copyright">© 2026 Aritzia LP</div>
+  </footer>
+
+  <button class="chat-fab" aria-label="Chat">
+    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+  </button>
+
+  <div class="browser-chrome">
+    <button style="background:none;border:none;font-size:18px;">‹</button>
+    <div class="url-pill">aritzia.com</div>
+    <button style="background:none;border:none;font-size:16px;">↻</button>
+    <button style="background:none;border:none;font-size:18px;">⋯</button>
+  </div>
+
 </body>
 </html>
