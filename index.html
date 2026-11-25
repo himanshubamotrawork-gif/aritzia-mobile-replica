@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aritzia — Replica</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,25 +16,41 @@
       --red: #db1215;
       --border: #e5e5e5;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
       background: var(--bg);
       color: var(--ink);
       line-height: 1.4;
+      min-height: 100vh;
+    }
+    .container {
       max-width: 430px;
       margin: 0 auto;
-      min-height: 100vh;
       position: relative;
-      overflow-x: hidden;
+    }
+    @media (min-width: 768px) {
+      body { background: #f5f5f5; }
+      .container {
+        max-width: 900px;
+        background: white;
+        margin: 20px auto;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+    }
+    @media (min-width: 1200px) {
+      .container { max-width: 1000px; }
     }
     header {
       display: flex; align-items: center; justify-content: space-between;
       padding: 12px 16px 14px; background: var(--bg); position: sticky; top: 0; z-index: 100;
     }
-    .logo {
-      display: flex; align-items: center;
+    @media (min-width: 768px) {
+      header { padding: 16px 40px; }
     }
+    .logo { display: flex; align-items: center; }
     .header-icons { display: flex; align-items: center; gap: 18px; }
     .icon-btn {
       background: none; border: none; cursor: pointer; padding: 4px;
@@ -55,6 +71,9 @@
       background: none; border: none; color: white; font-size: 18px; cursor: pointer;
     }
     .section { padding: 24px 16px 8px; }
+    @media (min-width: 768px) {
+      .section { padding: 32px 40px 12px; }
+    }
     .section-title { font-size: 15px; font-weight: 400; margin-bottom: 16px; }
     .section-title.large { font-size: 26px; font-weight: 400; letter-spacing: -0.6px; margin-bottom: 8px; }
     .section-sub { font-size: 15px; margin-bottom: 28px; max-width: 320px; }
@@ -62,8 +81,14 @@
       display: flex; gap: 12px; overflow-x: auto; padding: 0 16px 24px;
       scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
     }
+    @media (min-width: 768px) {
+      .product-scroll { padding: 0 40px 32px; }
+    }
     .product-scroll::-webkit-scrollbar { display: none; }
     .product-card { flex: 0 0 48%; max-width: 180px; scroll-snap-align: start; }
+    @media (min-width: 768px) {
+      .product-card { flex: 0 0 180px; }
+    }
     .product-img-wrap {
       position: relative; background: #f0f0f0; aspect-ratio: 3/4; overflow: hidden; margin-bottom: 10px;
     }
@@ -76,8 +101,14 @@
     .bag-item {
       display: flex; gap: 14px; padding: 20px 16px; border-bottom: 1px solid var(--border);
     }
+    @media (min-width: 768px) {
+      .bag-item { padding: 24px 40px; gap: 20px; }
+    }
     .bag-item-img {
       width: 120px; flex-shrink: 0; background: #f0f0f0; aspect-ratio: 3/4; overflow: hidden;
+    }
+    @media (min-width: 768px) {
+      .bag-item-img { width: 140px; }
     }
     .bag-item-img img { width: 100%; height: 100%; object-fit: cover; }
     .bag-item-details { flex: 1; display: flex; flex-direction: column; position: relative; padding-right: 24px; }
@@ -93,6 +124,9 @@
       position: absolute; top: 0; right: 0; background: none; border: none; font-size: 18px; cursor: pointer; color: var(--ink);
     }
     .shipping-options { padding: 20px 16px; }
+    @media (min-width: 768px) {
+      .shipping-options { padding: 20px 40px; }
+    }
     .option { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 18px; cursor: pointer; }
     .option input[type="radio"] {
       appearance: none; width: 20px; height: 20px; border: 1.5px solid var(--ink); border-radius: 50%; margin-top: 1px; position: relative; flex-shrink: 0;
@@ -104,10 +138,16 @@
     .option-label .sub { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; }
     .option-label a { color: var(--ink); text-decoration: underline; font-size: 13px; }
     .gift-note { padding: 8px 16px 24px; display: flex; gap: 12px; align-items: flex-start; }
+    @media (min-width: 768px) {
+      .gift-note { padding: 12px 40px 28px; }
+    }
     .gift-note svg { width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; }
     .gift-note-text { font-size: 13px; line-height: 1.45; }
     .gift-note-text strong { font-weight: 500; display: block; margin-bottom: 4px; }
     .order-summary { background: var(--surface); padding: 24px 16px 32px; margin-top: 8px; }
+    @media (min-width: 768px) {
+      .order-summary { padding: 32px 40px 40px; }
+    }
     .order-summary h3 { font-size: 15px; font-weight: 400; margin-bottom: 18px; }
     .summary-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 12px; }
     .summary-row.discount { color: var(--red); }
@@ -129,6 +169,9 @@
     .klarna-note { font-size: 12px; color: var(--muted); margin-top: 16px; line-height: 1.4; }
     .klarna-note a { color: var(--ink); text-decoration: underline; }
     footer { padding: 32px 16px 100px; font-size: 13px; }
+    @media (min-width: 768px) {
+      footer { padding: 40px 40px 60px; }
+    }
     .footer-links { display: flex; flex-wrap: wrap; gap: 16px 20px; margin-bottom: 20px; }
     .footer-links a { color: var(--ink); text-decoration: underline; }
     .copyright { color: var(--muted); font-size: 12px; }
@@ -137,24 +180,20 @@
       border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 50; border: none;
     }
+    @media (min-width: 768px) {
+      .chat-fab { bottom: 40px; right: 40px; }
+    }
     .chat-fab svg { width: 24px; height: 24px; fill: white; }
     .divider { height: 8px; background: var(--surface); }
     .final-sale { color: var(--red); font-size: 13px; margin-top: 6px; display: flex; align-items: center; gap: 4px; }
-    .browser-chrome {
-      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px;
-      background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-top: 1px solid #ddd;
-      padding: 8px 12px 10px; display: flex; align-items: center; justify-content: space-between; z-index: 40; font-size: 12px;
-    }
-    .browser-chrome .url-pill {
-      background: #f0f0f0; border-radius: 20px; padding: 6px 16px; font-size: 13px; color: #333; flex: 1; text-align: center; margin: 0 8px;
-    }
   </style>
 </head>
 <body>
+<div class="container">
 
   <header>
-    <a href="#" class="logo" style="display:flex;align-items:center;">
-      <svg xmlns="http://www.w3.org/2000/svg" height="22" viewBox="-7.937505 -2.6123 68.79171 15.6738" style="display:block"><path fill="#000000" d="M6.6918 7.775H2.3175L1.193 10.449H0v-.0276c.096-.1235.3977-.5347.7678-1.3986L4.004 1.4946l-.1508-.3563c-.233-.576-.439-.919-.6445-1.1108V0h1.81l3.8806 9.037c.3701.85.6172 1.2615.7268 1.3848v.0275H7.8298zm-.3429-.7953L4.484 2.6326 2.66 6.9797zm8.2548-1.8785c.8228-.3154 1.3988-1.0835 1.3988-2.3038 0-1.4536-1.056-2.1254-2.3037-2.1254H12.396v9.7772h-1.8923v-.0275c.096-.1783.3154-.5622.3154-1.4396V1.467c0-.8776-.2194-1.2615-.3154-1.4398V0h3.8396c1.4947 0 3.3047.713 3.3047 2.6876 0 1.8375-1.3849 2.6329-2.7837 2.7837l2.6876 3.771c.439.6171.9324 1.042 1.1108 1.1793v.0275H16.592L12.876 5.17l1.3575-.5897zm7.2813 5.3205v.0275h-2.2077v-.0275c.096-.1784.3154-.5623.3154-1.4396V1.467c0-.8776-.2193-1.2615-.3154-1.4398V0h2.2077v.0275c-.0958.1783-.3154.5622-.3154 1.4398V8.982c0 .8774.2196 1.2613.3154 1.4396zm6.2942 0v.0275h-2.208v-.0275c.096-.1784.3154-.5623.3154-1.4396V.672c-1.3165.1645-2.7014.6032-3.1538.8913L23.3384 0h7.4737l.2053 1.5632c-.4387-.288-1.8238-.7268-3.1539-.8914v8.31c.0003.8776.2196 1.2615.3157 1.4399zm10.5862.0275H31.196v-.0275L36.7223.713c-1.9608.096-3.3321.2878-4.5802.85L32.3477 0h6.5273v.0274L33.3486 9.75c2.249-.0688 4.2098-.2196 5.6224-.8641zm3.6611-.0275v.0275h-2.2077v-.0275c.0958-.1784.3151-.5623.3151-1.4396V1.467c0-.8776-.2193-1.2615-.3151-1.4398V0h2.2077v.0275c-.0958.1783-.3151.5622-.3151 1.4398V8.982c-.0003.8774.219 1.2613.315 1.4396zm7.5557-2.6467h-4.3746l-1.1243 2.674h-1.1932v-.0276c.096-.1235.3979-.5347.7678-1.3986l3.2364-7.5282-.1506-.3563c-.2333-.576-.439-.919-.6448-1.1108V0h1.8103L52.19 9.037c.3701.85.617 1.2615.7268 1.3848v.0275h-1.7965zm-.343-.7953l-1.865-4.3471-1.824 4.3471z"/></svg>
+    <a href="#" class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" height="22" viewBox="-7.937505 -2.6123 68.79171 15.6738"><path fill="#000000" d="M6.6918 7.775H2.3175L1.193 10.449H0v-.0276c.096-.1235.3977-.5347.7678-1.3986L4.004 1.4946l-.1508-.3563c-.233-.576-.439-.919-.6445-1.1108V0h1.81l3.8806 9.037c.3701.85.6172 1.2615.7268 1.3848v.0275H7.8298zm-.3429-.7953L4.484 2.6326 2.66 6.9797zm8.2548-1.8785c.8228-.3154 1.3988-1.0835 1.3988-2.3038 0-1.4536-1.056-2.1254-2.3037-2.1254H12.396v9.7772h-1.8923v-.0275c.096-.1783.3154-.5622.3154-1.4396V1.467c0-.8776-.2194-1.2615-.3154-1.4398V0h3.8396c1.4947 0 3.3047.713 3.3047 2.6876 0 1.8375-1.3849 2.6329-2.7837 2.7837l2.6876 3.771c.439.6171.9324 1.042 1.1108 1.1793v.0275H16.592L12.876 5.17l1.3575-.5897zm7.2813 5.3205v.0275h-2.2077v-.0275c.096-.1784.3154-.5623.3154-1.4396V1.467c0-.8776-.2193-1.2615-.3154-1.4398V0h2.2077v.0275c-.0958.1783-.3154.5622-.3154 1.4398V8.982c0 .8774.2196 1.2613.3154 1.4396zm6.2942 0v.0275h-2.208v-.0275c.096-.1784.3154-.5623.3154-1.4396V.672c-1.3165.1645-2.7014.6032-3.1538.8913L23.3384 0h7.4737l.2053 1.5632c-.4387-.288-1.8238-.7268-3.1539-.8914v8.31c.0003.8776.2196 1.2615.3157 1.4399zm10.5862.0275H31.196v-.0275L36.7223.713c-1.9608.096-3.3321.2878-4.5802.85L32.3477 0h6.5273v.0274L33.3486 9.75c2.249-.0688 4.2098-.2196 5.6224-.8641zm3.6611-.0275v.0275h-2.2077v-.0275c.0958-.1784.3151-.5623.3151-1.4396V1.467c0-.8776-.2193-1.2615-.3151-1.4398V0h2.2077v.0275c-.0958.1783-.3151.5622-.3151 1.4398V8.982c-.0003.8774.219 1.2613.315 1.4396zm7.5557-2.6467h-4.3746l-1.1243 2.674h-1.1932v-.0276c.096-.1235.3979-.5347.7678-1.3986l3.2364-7.5282-.1506-.3563c-.2333-.576-.439-.919-.6448-1.1108V0h1.8103L52.19 9.037c.3701.85.617 1.2615.7268 1.3848v.0275h-1.7965zm-.343-.7953l-1.865-4.3471-1.824 4.3471z"/></svg>
     </a>
     <div class="header-icons">
       <button class="icon-btn" aria-label="Search">
@@ -184,7 +223,6 @@
     <h2 class="section-title large">My Bag<sup style="font-size: 15px; font-weight: 400; letter-spacing: -0.5px;">3</sup></h2>
   </section>
 
-  <!-- Bag Item 1 -->
   <div class="bag-item">
     <div class="bag-item-img">
       <img src="product-images/levis-jean.jpg" alt="Levi's Easy Dad Jean">
@@ -218,7 +256,6 @@
 
   <div class="divider"></div>
 
-  <!-- Bag Item 2 -->
   <div class="bag-item">
     <div class="bag-item-img">
       <img src="product-images/polartec-fleece.jpg" alt="Polartec Thermal Pro Highlands 1/2 Zip">
@@ -251,7 +288,6 @@
 
   <div class="divider"></div>
 
-  <!-- Bag Item 3 -->
   <div class="bag-item">
     <div class="bag-item-img">
       <img src="product-images/supersnug-puff.jpg" alt="The SuperSnug Puff Liquid Shine">
@@ -361,12 +397,6 @@
     <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
   </button>
 
-  <div class="browser-chrome">
-    <button style="background:none;border:none;font-size:18px;">‹</button>
-    <div class="url-pill">aritzia.com</div>
-    <button style="background:none;border:none;font-size:16px;">↻</button>
-    <button style="background:none;border:none;font-size:18px;">⋯</button>
-  </div>
-
+</div>
 </body>
 </html>
